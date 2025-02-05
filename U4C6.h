@@ -12,6 +12,7 @@
 
 #include "hardware/i2c.h"
 #include "display/ssd1306.h"
+#include "neopixel/neopixel.h"
 
 void init_gpio();
 uint64_t handle_btn_a(alarm_id_t id, void *user_data);

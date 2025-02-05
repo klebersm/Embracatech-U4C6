@@ -10,7 +10,7 @@ uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b) {
          (uint32_t)(b);
 }
 
-void initNeoPixel() {
+void init_neopixel() {
   PIO pio = pio0;
   int sm = 0;
   uint offset = pio_add_program(pio, &ws2812_program);

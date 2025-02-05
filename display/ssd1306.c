@@ -165,13 +165,23 @@ void ssd1306_draw_char(ssd1306_t *ssd, char c, uint8_t x, uint8_t y)
   {
     index = (c - '0' + 1) * 8; // Adiciona o deslocamento necessário
   }
+  else if (c >= 'a' && c <= 'z') {
+    index = (c - 'a' + 37) * 8;
+  }
   
-  for (uint8_t i = 0; i < 8; ++i)
-  {
-    uint8_t line = font[index + i];
-    for (uint8_t j = 0; j < 8; ++j)
-    {
-      ssd1306_pixel(ssd, x + i, y + j, line & (1 << j));
+  if(index >= 37*8) {
+    for (uint8_t i = 0; i < 8; ++i){
+      uint8_t line = font[index + i];
+      for (uint8_t j = 0; j < 8; ++j){
+        ssd1306_pixel(ssd, x + j, y + i, line & (0x80 >> j));
+      }
+    }
+  } else {
+    for (uint8_t i = 0; i < 8; ++i){
+      uint8_t line = font[index + i];
+      for (uint8_t j = 0; j < 8; ++j){
+        ssd1306_pixel(ssd, x + i, y + j, line & (1 << j));
+      }
     }
   }
 }

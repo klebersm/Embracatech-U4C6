@@ -137,5 +137,8 @@
   {0, 1, 0, 1, 0}\
 }
 
+static bool alphabet[][MATRIX_LEN][MATRIX_LEN] = {
+  CHAR_0, CHAR_1, CHAR_2, CHAR_3, CHAR_4, CHAR_5, CHAR_6, CHAR_7, CHAR_8, CHAR_9
+};
 
 #endif
