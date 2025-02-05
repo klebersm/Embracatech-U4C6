@@ -46,8 +46,34 @@ int main()
     
     init_gpio();
 
+    i2c_init(I2C_PORT, SSD1306_FREQ);
+    gpio_set_function(I2C_SDA, GPIO_FUNC_I2C); // Set the GPIO pin function to I2C
+    gpio_set_function(I2C_SCL, GPIO_FUNC_I2C); // Set the GPIO pin function to I2C
+    gpio_pull_up(I2C_SDA); // Pull up the data line
+    gpio_pull_up(I2C_SCL); // Pull up the clock line
+    ssd1306_t ssd;
+    ssd1306_init(&ssd, WIDTH, HEIGHT, false, SSD1306_ADDR, I2C_PORT);
+    ssd1306_config(&ssd);
+    ssd1306_send_data(&ssd);
+
+    // Limpa o display. O display inicia com todos os pixels apagados.
+    ssd1306_fill(&ssd, false);
+    ssd1306_send_data(&ssd);
+
+    ssd1306_draw_string(&ssd, "CONECTE UART", 8, 10); // Desenha uma string
+    ssd1306_send_data(&ssd);
+
+    while(!stdio_usb_connected()) {
+        sleep_ms(100);
+    }
+    printf("UART conectada com sucesso.\n");
+
     while (true) {
-        printf("Hello, world!\n");
-        sleep_ms(1000);
+        ssd1306_rect(&ssd, 3, 3, 122, 58, true, false); // Desenha um retângulo
+        ssd1306_send_data(&ssd); // Atualiza o display
+        char c;
+        if (scanf("%c", &c) == 1) {
+
+        }
     }
 }

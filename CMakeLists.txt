@@ -38,6 +38,7 @@ pico_sdk_init()
 add_executable(
     U4C6
     U4C6.c
+    display/ssd1306.c
     neopixel/neopixel.c
 )
 
@@ -53,6 +54,7 @@ target_link_libraries(
     U4C6
     pico_stdlib
     hardware_pio
+    hardware_i2c
 )
 
 # Add the standard include files to the build

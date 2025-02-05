@@ -10,6 +10,9 @@
 
 #define DEBOUNCE_MS   100
 
+#include "hardware/i2c.h"
+#include "display/ssd1306.h"
+
 void init_gpio();
 uint64_t handle_btn_a(alarm_id_t id, void *user_data);
 uint64_t handle_btn_b(alarm_id_t id, void *user_data);
