@@ -35,7 +35,11 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(U4C6 U4C6.c )
+add_executable(
+    U4C6
+    U4C6.c
+    neopixel/neopixel.c
+)
 
 pico_set_program_name(U4C6 "U4C6")
 pico_set_program_version(U4C6 "0.1")
@@ -45,8 +49,11 @@ pico_enable_stdio_uart(U4C6 0)
 pico_enable_stdio_usb(U4C6 1)
 
 # Add the standard library to the build
-target_link_libraries(U4C6
-        pico_stdlib)
+target_link_libraries(
+    U4C6
+    pico_stdlib
+    hardware_pio
+)
 
 # Add the standard include files to the build
 target_include_directories(U4C6 PRIVATE
