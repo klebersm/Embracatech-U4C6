@@ -22,6 +22,22 @@ void init_gpio() {
     gpio_set_irq_enabled_with_callback(BUTTON_B, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true, &debounce);
 }
 
+void init_display() {
+    i2c_init(I2C_PORT, SSD1306_FREQ);
+    gpio_set_function(I2C_SDA, GPIO_FUNC_I2C); // Set the GPIO pin function to I2C
+    gpio_set_function(I2C_SCL, GPIO_FUNC_I2C); // Set the GPIO pin function to I2C
+    gpio_pull_up(I2C_SDA); // Pull up the data line
+    gpio_pull_up(I2C_SCL); // Pull up the clock line
+    
+    ssd1306_init(&ssd, WIDTH, HEIGHT, false, SSD1306_ADDR, I2C_PORT);
+    ssd1306_config(&ssd);
+    ssd1306_send_data(&ssd);
+
+    // Limpa o display. O display inicia com todos os pixels apagados.
+    ssd1306_fill(&ssd, false);
+    ssd1306_send_data(&ssd);
+}
+
 uint64_t handle_btn_a(alarm_id_t id, void *user_data) {
     gpio_put(LED_G, !gpio_get(LED_G));
 }
@@ -67,20 +83,7 @@ int main()
     
     init_gpio();
     init_neopixel();
-
-    i2c_init(I2C_PORT, SSD1306_FREQ);
-    gpio_set_function(I2C_SDA, GPIO_FUNC_I2C); // Set the GPIO pin function to I2C
-    gpio_set_function(I2C_SCL, GPIO_FUNC_I2C); // Set the GPIO pin function to I2C
-    gpio_pull_up(I2C_SDA); // Pull up the data line
-    gpio_pull_up(I2C_SCL); // Pull up the clock line
-    
-    ssd1306_init(&ssd, WIDTH, HEIGHT, false, SSD1306_ADDR, I2C_PORT);
-    ssd1306_config(&ssd);
-    ssd1306_send_data(&ssd);
-
-    // Limpa o display. O display inicia com todos os pixels apagados.
-    ssd1306_fill(&ssd, false);
-    ssd1306_send_data(&ssd);
+    init_display();
 
     ssd1306_rect(&ssd, 3, 3, 122, 58, true, false); // Desenha um retângulo
     ssd1306_send_data(&ssd); // Atualiza o display
